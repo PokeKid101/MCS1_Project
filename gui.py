@@ -1,24 +1,17 @@
 # Install python library for GUI
-# py -m pip install pysimplegui
+# py -m pip install pysimplegui (windows)
 
-import PySimpleGUI as sg
+# Import simpleGUI library
+import PySimpleGUI as psg
 
+# Generate GUI layout
 layout = [
-    [sg.Text("MCS Final Project")],
-    [sg.Text("Karaoke Machine")],
-    [sg.Text("Landon Schreck and Matthew Mangsen")],
-    [sg.Button("OK")]
+    [psg.Text("MCS Final Project")],
+    [psg.Text("Karaoke Machine")],
+    [psg.Text("Landon Schreck and Matthew Mangsen")],
+    [psg.Button("Say 'Hello World'")],
+    [psg.Text("", key="testTxt")]
 ]
 
-# Create the window
-window = sg.Window("MCS Final Project", layout)
-
-# Create an event loop
-while True:
-    event, values = window.read()
-    # End program if user closes window or
-    # presses the OK button
-    if event == "OK" or event == sg.WIN_CLOSED:
-        break
-
-window.close()
+# Create window with disired layout
+window = psg.Window("MCS Final Project", layout)
