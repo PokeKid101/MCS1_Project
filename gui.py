@@ -84,7 +84,7 @@ mergeLayout = [
     [psg.Text("Merge Audio Files")],
     [psg.Button("Exit Merge")],
     [psg.Text("")],
-    [psg.Text(karaokeInstructions)],
+    [psg.Text(mergeInstructions)],
     [psg.Text("File Merge 1: "), psg.Input("", key="fileMerge1InputMerge")],
     [psg.Text("File Merge 2: "), psg.Input("", key="fileMerge2InputMerge")],
     [psg.Text("File Name:    "), psg.Input("", key="fileNameInputMerge")],
