@@ -25,6 +25,7 @@ def play(filePath):
 
     # Play the audio file
     data = audioFile.readframes(frames_per_buffer)
+    print("Playing:", filePath)
     while data:
         stream.write(data)
         data = audioFile.readframes(frames_per_buffer)
@@ -79,7 +80,7 @@ def record(fileLocation, fileName, numMinutes, numSeconds):
     sound_file.setframerate(44100)
     sound_file.writeframes(b''.join(frames))
     sound_file.close()
-    print("Audio saved")
+    print("Audio saved:", filePath)
 
 def recordAndPlay(filePath, fileLocation, fileName):
     # Set up input/output audio
@@ -99,7 +100,8 @@ def recordAndPlay(filePath, fileLocation, fileName):
         format = audioOut.get_format_from_width(audioFile.getsampwidth()),
         channels = audioFile.getnchannels(),
         rate = audioFile.getframerate(),
-        output = True
+        output = True,
+        frames_per_buffer = 1024
         )
     frames = []
     frames_per_buffer = 1024
@@ -107,6 +109,7 @@ def recordAndPlay(filePath, fileLocation, fileName):
     
     # Record and play audio
     # Duration is as long as played audio
+    print("Playing:", filePath)
     print("Recording...")
     dataOut = audioFile.readframes(frames_per_buffer)
     while dataOut:
@@ -131,7 +134,7 @@ def recordAndPlay(filePath, fileLocation, fileName):
     sound_file.setframerate(44100)
     sound_file.writeframes(b''.join(frames))
     sound_file.close()
-    print("Audio saved")
+    print("Audio saved:", newFilePath)
     
 
 def merge(filePath, songPath, mergedPath):

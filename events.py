@@ -12,76 +12,61 @@ import audio
 audioFileLocation = "Sound Files/"
 fileFormat = ".wav"
 
-# Global variables
-fileName = ""
-filePlay = ""
-fileMerge1 = ""
-fileMerge2 = ""
-numMinutes = ""
-numSeconds = ""
-filePath = ""
-
-def updateValues(guiValues):
-    global fileName, filePlay
-    global fileMerge1, fileMerge2
-    global numMinutes, numSeconds
-
-    # Seperate try/exception cases for the different layouts
-
-    # Record Inputs
-    try:
-        fileName = guiValues["fileNameInputRecord"]
-        updateFilePath(fileName)
-        numMinutes = guiValues["minutesInputRecord"]
-        numSeconds = guiValues["secondsInputRecord"]
-    except Exception as e:
-        pass
+def playback(guiValues):
+    global audioFileLocation, fileFormat
     
     # Playback Inputs
     try:
         filePlay = guiValues["filePlayInputPlayback"]
-        updateFilePath(filePlay)
+        filePath = audioFileLocation + filePlay + fileFormat
+        print("Playback inputs read")
+        audio.play(filePath)
     except Exception as e:
-        pass
+        print("Cannot playback audio")
+        print(e)
       
+def record(guiValues):    
+    global audioFileLocation
+    
+    # Record Inputs
+    try:
+        fileName = guiValues["fileNameInputRecord"]
+        numMinutes = guiValues["minutesInputRecord"]
+        numSeconds = guiValues["secondsInputRecord"]
+        print("Record inputs read")
+        audio.record(audioFileLocation, fileName, numMinutes, numSeconds)
+    except Exception as e:
+        print("Cannot record audio")
+        print(e)
+        
+def merge(guiValues):
+    global audioFileLocation, fileFormat
+        
+    # Merge Inputs
+    try:
+        fileMerge1 = guiValues["fileMerge1InputMerge"]
+        fileMerge1Path = audioFileLocation + fileMerge1 + fileFormat
+        fileMerge2 = guiValues["fileMerge2InputMerge"]
+        fileMerge2Path = audioFileLocation + fileMerge2 + fileFormat
+        fileName = guiValues["fileNameInputMerge"]
+        filePath = audioFileLocation + fileName + fileFormat
+        print("Merge inputs read")
+        audio.merge(fileMerge1Path, fileMerge2Path, filePath)
+    except Exception as e:
+        print("Cannot merge audio")
+        print(e)
+    
+def recordPlay(guiValues):
+    global audiofileLocation
+    
     # Karaoke Inputs
     try: 
         filePlay = guiValues["filePlayInputKaraoke"]
-        updateFilePath(filePlay)
+        filePlayPath = audioFileLocation + filePlay + fileFormat
         fileName = guiValues["fileNameInputKaraoke"]
-        updateFilePath(fileName)
+        print("Karaoke inputs read")
+        audio.recordAndPlay(filePlayPath, audioFileLocation, fileName)
     except Exception as e:
-        pass
-       
-    # Merge Inputs
-    try:
-        fileMerge1 = guiValues["fileMerge1Merge"]
-        fileMerge2 = guiValues["fileMerge2Merge"]
-        # Format file mergers
-        fileMerge1 = audioFileLocation + fileMerge1 + fileFormat
-        fileMerge2 = audioFileLocation + fileMerge2 + fileFormat
-        
-        fileName = guiValues["fileNameInputMerge"]
-        updateFilePath(fileName)
-    except Exception as e:
-        pass
-    
-
-def updateLabel(elementName, elementText):
-    gui.window[elementName].update(elementText)
-
-def updateFilePath(fileName):
-    global filePath
-    filePath = audioFileLocation + fileName + fileFormat
-
-def playback():
-     audio.play(filePath)
-
-def record():    
-    audio.record(audioFileLocation, fileName, numMinutes, numSeconds)
-
-def merge():
-    audio.merge(filePath, songPath, mergedPath)
-
-def recordPlay():
-    audio.recordAndPlay(filePath, audioFileLocation, songName)
+        print("Cannot karaoke")
+        print(e)
+         

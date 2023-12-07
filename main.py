@@ -17,17 +17,20 @@ print("GUI set up successful")
 while True:
     event, values = gui.window.read()
 
-    # Update event values
-    events.updateValues(values);
-
     # End program if user closes window 
     if event == psg.WIN_CLOSED:
         break
 
 
     # Switch to 'Main Page' layout
-    if event == "Go Back":
+    if event == "Exit Record":
         gui.switchWindow("main")
+    elif event == "Exit Playback":
+        gui.switchWindow("main")   
+    elif event == "Exit Karaoke":
+        gui.switchWindow("main")   
+    elif event == "Exit Merge":
+        gui.switchWindow("main")   
         
     # Switch to 'Record Audio' layout
     if event == "Record Audio":
@@ -48,25 +51,21 @@ while True:
 
     # Record audio from user
     if event == "Record":        
-        events.record()
+        events.record(values)
 
     # Playback user audio
     if event == "Playback":
-        events.playback()
+        events.playback(values)
         
     # Record with Playback
     if event == "Record Karaoke":
-        events.recordPlay() 
+        events.recordPlay(values) 
         
     # Playback merged user audio
     if event == "Merge":
-        events.merge()
+        events.merge(values)
         
     
-        
-    
-    
-
 gui.window.close()
 print("GUI closed successfully")
 

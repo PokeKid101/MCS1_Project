@@ -7,34 +7,32 @@ import PySimpleGUI as psg
 # Generate GUI layouts
 window = "" # leave blank
 windowName = "MCS - Final Project"
-breakPoint = psg.Text("")
+currentLayout = 1
 
 # Main page
+mainInstructions = " \
+To use a feature provided in this project, click the button of the feature you would like to use. \n \
+To retun to this page, click the associated 'Exit' button within the feature's window."
 mainLayout = [
     [psg.Text("MCS Final Project")],
     [psg.Text("Karaoke Machine")],
     [psg.Text("Landon Schreck and Matthew Mangsen")],
     [psg.Text("")],
-    [psg.Text("(Instructions Here)")],
+    [psg.Text(mainInstructions)],
     [psg.Button("Record Audio"), psg.Button("Playback Audio")],
-    [psg.Button("Karaoke Mode"), psg.Button("Merge Audio")],
-    #[psg.Text("")],    
-    #[psg.Text("File Name: "), psg.Input("", key="fileNameInput")],
-    #[psg.Text("Num Minutes: "), psg.Input("", key="minutesInput")],
-    #[psg.Text("Num Seconds: "), psg.Input("", key="secondsInput")],
-    #[psg.Text("Song File Name: "), psg.Input("", key="songNameInput")],
-    #[psg.Text("Merged File Name: "), psg.Input("", key="mergedNameInput")],
-    #[psg.Button("Record Audio"), psg.Button("Playback Audio"), psg.Button("Merge Audio")],
-    #[psg.Button("Record Play")],  
-    []
+    [psg.Button("Karaoke Mode"), psg.Button("Merge Audio")]
 ]
 
 # Record audio page
-recordInstructions = "Please type in name of the file you wish to create (do NOT include the .wav extention). Then specify the length of the file."
+recordInstructions = " \
+'Record Audio' will record incoming audio signals for the specified amount of time. \n \
+Please type in name of the file you wish to create in 'File Name' (do NOT include the .wav extention). \n \
+Then specify the length of the file with 'Minutes' and 'Seconds'. \n \
+When ready, press the 'Record' button to being recording."
 recordLayout = [
     [psg.Text("Record Audio")],
-    [psg.Button("Go Back")],
-    [breakPoint],
+    [psg.Button("Exit Record")],
+    [psg.Text("")],
     [psg.Text(recordInstructions)],
     [psg.Text("File Name: "), psg.Input("", key="fileNameInputRecord")],
     [psg.Text("Minutes:   "), psg.Input("", key="minutesInputRecord")],
@@ -43,34 +41,49 @@ recordLayout = [
 ]
 
 # Playback audio page
-playbackInstructions = "write instructions here"
+playbackInstructions = " \
+'Playback Audio' will play the entirity of a specified audio file to the outgoing audio device. \n \
+Please type in the name of the file you wish to play in 'File Play' (do NOT include the .wav extension). \n \
+When ready, press the 'Playback' button to being playing the audio file."
 playbackLayout = [
     [psg.Text("Playback Audio")],
-    [psg.Button("Go Back")],
-    [breakPoint],
+    [psg.Button("Exit Playback")],
+    [psg.Text("")],
     [psg.Text(playbackInstructions)],
     [psg.Text("File Play: "), psg.Input("", key="filePlayInputPlayback")],
     [psg.Button("Playback")]
 ]    
     
 # Karaoke mode page
-karaokeInstructions = "write instructions here"
+karaokeInstructions = " \
+'Karaoke Mode' will play the entirity of a specified audio file to the outgoing audio device while also \n \
+recording any incoming audio signals. The incoming audio signals are saved as a stand alone file, if you \n \
+wish to hear the recorded audio with the played audio, please merge the two files. \n \
+Please type in the name of the file you wish to play in 'File Play' (do NOT include the .wav extension). \n \
+Please type in the name of the file you wish to create 'File Name' (do NOT include the .wav extension). \n \
+When ready, press the 'Record Karaoke' button to begin recording."
 karaokeLayout = [
     [psg.Text("Karaoke Mode")],
-    [psg.Button("Go Back")],
-    [breakPoint],
+    [psg.Button("Exit Karaoke")],
+    [psg.Text("")],
     [psg.Text(karaokeInstructions)],
-    [psg.Text("File Play: "), psg.Input("", key="filePlayInputKaroke")],
-    [psg.Text("File Name: "), psg.Input("", key="fileNameInputKaroke")],
+    [psg.Text("File Play: "), psg.Input("", key="filePlayInputKaraoke")],
+    [psg.Text("File Name: "), psg.Input("", key="fileNameInputKaraoke")],
     [psg.Button("Record Karaoke")]
 ]
     
 # Merge audio page
-mergeInstructions = "write instructions here"
+mergeInstructions = " \
+'Merge Audio' will merge two seperate .wav files and create a new stand alone merged .wav file. The length \n \
+of the merged file is dependent on the first .wav file, 'File Merge 1'. \n \
+Please type in the name of the first file you wish to merge in 'File Merge 1' (do NOT include the .wav extension). \n \
+Please type in the name of the second file you wish to merge in 'File Merge 2' (do NOT include the .wav extension). \n \
+Please type the name of the created merged file in 'File Name' (do NOT include the .wav extension). \n \
+When ready, press the 'Merge' button to merge the two .wav files."
 mergeLayout = [
     [psg.Text("Merge Audio Files")],
-    [psg.Button("Go Back")],
-    [breakPoint],
+    [psg.Button("Exit Merge")],
+    [psg.Text("")],
     [psg.Text(karaokeInstructions)],
     [psg.Text("File Merge 1: "), psg.Input("", key="fileMerge1InputMerge")],
     [psg.Text("File Merge 2: "), psg.Input("", key="fileMerge2InputMerge")],
@@ -80,34 +93,46 @@ mergeLayout = [
 
 # Final layout
 layout = [
-    [psg.Column(mainLayout, visible=False, key="main"),
-     psg.Column(recordLayout, visible=False, key="record"),
-     psg.Column(playbackLayout, visible=False, key="playback"),
-     psg.Column(karaokeLayout, visible=False, key="karaoke"),
-     psg.Column(mergeLayout, visible=False, key="merge"),
-     
+    [psg.Column(mainLayout, key='-COL1-'),
+     psg.Column(recordLayout, visible=False, key='-COL2-'),
+     psg.Column(playbackLayout, visible=False, key='-COL3-'),
+     psg.Column(karaokeLayout, visible=False, key='-COL4-'),
+     psg.Column(mergeLayout, visible=False, key='-COL5-'),     
     ]
 ]
 
+def clearInputs():
+    pass
+
 def switchWindow(show):
-    global window
+    global window, currentLayout
     
-    # Make all layouts invisible
-    window["main"].update(visible=False)
-    window["record"].update(visible=False)
-    window["playback"].update(visible=False)
-    window["karaoke"].update(visible=False)
-    window["merge"].update(visible=False)
+    # Make current layout invisible
+    window[f'-COL{currentLayout}-'].update(visible=False)
     
-    # Make specified layout visible
-    window[show].update(visible=True)
+    # Check what should be the next viewed layout
+    if show == "main":
+        currentLayout = 1
+    elif show == "record":
+        currentLayout = 2
+    elif show == "playback":
+        currentLayout = 3
+    elif show == "karaoke":
+        currentLayout = 4
+    elif show == "merge":
+        currentLayout = 5
+    else:
+        currentLayout = 1 # resort to main menu if there is a problem
+    
+    # Display new layout
+    window[f'-COL{currentLayout}-'].update(visible=True)
 
 
 def createWindow():
     global window
     
     # Set up the window with the layouts
-    window = psg.Window(windowName, layout)
+    window = psg.Window(windowName, layout, finalize=True)
 
     # Set the current shown layout as mainLayout
     switchWindow("main")
